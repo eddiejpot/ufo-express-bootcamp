@@ -1,0 +1,1 @@
+console.log('NOT MUCH HAPPENING IN SCRIPT JS');

@@ -1,0 +1,74 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000;
+  color: aliceblue;
+}
+
+h1,
+h3,
+h6 {
+  width: 100%;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+h1 {
+  color: rgb(223, 223, 223);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  border: solid 1px rgb(255, 255, 255);
+  border-radius: 2rem;
+  padding: 1rem;
+}
+
+p {
+  font-size: 0.6rem;
+}
+
+strong {
+  color: rgb(145, 145, 145);
+}
+.my-dropdown {
+  width: 100%;
+  text-align: center;
+}
+
+.my-container {
+  margin-bottom: 2rem;
+  padding: 0 2rem;
+}
+
+.my-row {
+  width: 100%;
+}
+.my-col {
+  width: 100%;
+}
+
+.sightings-list {
+  background-color: rgb(34, 34, 34);
+  padding: 1rem;
+}
+
+.sightings-list-row {
+  background-color: rgb(89, 0, 255);
+  padding: 1rem;
+  margin: 0.5rem 0;
+}
+
+.submit-sighting-btn {
+  width: 100%;
+  background-color: rgb(0, 58, 48);
+}
+
+.form-input-description {
+  height: 5rem;
+  text-align: left;
+}

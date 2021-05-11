@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/styles.css" />
+
+    <title>UFO</title>
+  </head>
+  <body>
+    <nav></nav>
+
+    <section class = 'container-fluid my-container sightings'>
+      <div class = 'row my-row'>
+        <div class="col">
+          <h1>SIGHTING</h1>
+        </div>
+      </div>
+      <div class = 'row my-row justify-content-center'>
+        <div class="col-12 my-col">
+          <p><strong>Date Posted: </strong> <%= sightingInfo.sighting.post_create_date_time %></p>
+          <p><strong>Sighting:</strong> <%= sightingInfo.sighting.sighting_date %> <%= sightingInfo.sighting.sighting_time %></p>
+          <p><strong>City: </strong> <%= sightingInfo.sighting.city %></p>
+          <p><strong>State: </strong> <%= sightingInfo.sighting.state %></p>
+          <p><strong>Shape: </strong> <%= sightingInfo.sighting.shape %></p>
+          <p><strong>Duration: </strong> <%= sightingInfo.sighting.duration %></p>
+          <p><strong>Summary</strong></p>
+          <p><%= sightingInfo.sighting.summary %></p>
+          <p><strong>Description</strong></p>
+          <p><%= sightingInfo.sighting.text %></p>
+        </div>
+        <div class="col-12 my-col">
+          <a class="btn btn-primary" href="/sighting/<%= sightingIndex.index %>/edit" role="button">Edit this post</a>
+        </div>
+        <div class = 'col-12 my-col'>
+          <form action='/sighting/<%= sightingIndex.index%>?_method=DELETE' method="POST">
+            <button type="submit" class="btn btn-dark delete-btn">Delete This Post</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+		<!-- SCRIPT -->
+    <script src="/script.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
