@@ -68,6 +68,10 @@ strong {
   background-color: rgb(0, 58, 48);
 }
 
+.my-form {
+  width: 100%;
+}
+
 .form-input-description {
   height: 5rem;
   text-align: left;
