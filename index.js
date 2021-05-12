@@ -87,8 +87,6 @@ const getCurretDateAndTime = () => {
 // Homepage
 app.get('/', readDataBase, (req, res) => {
   const allSightingsObj = req.AllSightingsObj;
-  // const groupedSightingsObj = groupSightingsByKey(allSightingsObj, 'shape');
-  // const totalGroupsObj = { groups: Object.keys(groupedSightingsObj) };
   res.render('index', allSightingsObj);
 });
 
@@ -109,8 +107,8 @@ app.get('/sighting/:index', readDataBase, (req, res) => {
 app.get('/shapes', readDataBase, (req, res) => {
   const sightingsObj = req.AllSightingsObj;
   const sightingsGroupedByShapeObj = groupSightingsByKey(sightingsObj, 'shape');
-  const totalShapesObj = { shapes: Object.keys(sightingsGroupedByShapeObj) };
-  res.render('shapes', totalShapesObj);
+  const sightingsGroupedByShapeArr = Object.entries(sightingsGroupedByShapeObj);
+  res.render('shapes', { sightingsGroupedByShapeArr });
 });
 
 // Shapes / <shape>

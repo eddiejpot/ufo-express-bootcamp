@@ -7,6 +7,59 @@
 }
 
 body {
+  background-color: rgb(29, 29, 29);
+  color: rgb(255, 255, 255);
+}
+
+/* HOMEPAGE */
+.my-jumbotron {
+  background-color: rgb(219, 219, 219);
+  color: rgb(26, 26, 26);
+  border-radius: 0;
+  margin: 0;
+}
+
+.view-btn,
+.delete-btn {
+  width: 4.5rem;
+  text-align: center;
+  padding: 0;
+}
+
+/* SIGHTINGS PAGE / FORM */
+.my-form {
+  padding: 0 2rem;
+}
+
+.form-row {
+  margin: 1rem 0;
+}
+
+.sightings-form .my-row {
+  padding: 1rem 0;
+}
+
+.btn-submit {
+  margin-top: 1rem 0;
+  width: 100%;
+}
+
+/* SINGLE SIGHTING PAGE */
+.sightings .btn-delete {
+  width: 100%;
+  margin: 0.2rem 0;
+}
+
+.sightings .btn-edit {
+  width: 100%;
+  margin: 0.2rem 0;
+}
+
+.sightings .my-row {
+  padding: 1rem 0;
+}
+
+/* body {
   background: #000;
   color: aliceblue;
 }
@@ -75,4 +128,4 @@ strong {
 .form-input-description {
   height: 5rem;
   text-align: left;
-}
+} */
