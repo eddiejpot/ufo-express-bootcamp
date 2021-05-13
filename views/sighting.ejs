@@ -12,7 +12,92 @@
       </p>
     </section>
 
-    <section class = 'container-fluid my-container sightings-form'>
+    <section class = "container-fluid my-container sightings-form">
+      <h4 class= "text-center">Tell Us What You Saw</h4>
+
+      <div class = 'row my-row justify-content-center'></div>
+      
+        <form action="/sighting" method="POST" class="needs-validation my-form" novalidate>
+          
+          <div class="form-group">
+            <div class="row form-row">
+              <div class="col form-col">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" class="form-control" required>
+                <div class="invalid-feedback">Please provide a city</div>
+              </div>
+              <div class="col form-col">
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" class="form-control" required>
+                <div class="invalid-feedback">Please provide a state</div>
+              </div>
+            </div>
+            <div class="row form-row">
+              <div class="col form-col">
+                <label for="sighting_date">Date of sighting:</label>
+                <input type="date" max= <%= maxDate %>  id="sighting_date" name="sighting_date" class="form-control" required>
+                <div class="invalid-feedback">Please provide a date</div>
+              </div>
+              <div class="col form-col">
+                <label for="sighting_time">Time of sighting:</label>
+                <input type="time" id="sighting_time" name="sighting_time" class="form-control" required>
+                <div class="invalid-feedback">Please provide a time</div>
+              </div>
+            </div>
+            <div class="row form-row">
+              <div class="col form-col">
+                <label for="shape">Shape:</label>
+                <input type="text" id="shape" name="shape" class="form-control" required>
+                <div class="invalid-feedback">Please provide a shape</div>
+              </div>
+              <div class="col form-col">
+                <label for="duration">Duration:</label>
+                <input type="text" id="duration" name="duration" class="form-control" required>
+                <div class="invalid-feedback">Please provide a duration</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group form-medium">
+            <label for="summary">Summary of event:</label>
+            <textarea class="form-control" rows="5" id="summary" name="summary" required>Try to keep this in one sentence</textarea>
+          </div>
+
+          <div class="form-group form-medium">
+            <label for="text">Description:</label>
+            <textarea class="form-control form-input-description" rows="8" id="text" name="text" required>Describe your experience</textarea>
+          </div>
+      
+          <button type="submit" class="btn btn-primary btn-submit">Submit</button>
+        </form>
+      </div>
+
+      <div class = 'row my-row justify-content-center'>
+        <a href="/" >Back to homepage</a>
+      </div>
+    </section>
+
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+    <!-- <section class = 'container-fluid my-container sightings-form'>
       <h4 class= "text-center">Tell Us What You Saw</h4>
 
       <div class = 'row my-row justify-content-center'></div>
@@ -68,6 +153,6 @@
       <div class = 'row my-row justify-content-center'>
         <a href="/" >Back to homepage</a>
       </div>
-    </section>
+    </section> -->
 
 <%- include ('partials/footer') %> 

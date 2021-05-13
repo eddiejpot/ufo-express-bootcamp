@@ -28,7 +28,7 @@
             <div class="row form-row">
               <div class="col form-col">
                 <label for="sighting_date">Date of sighting:</label>
-                <input type="date" id="sighting_date" name="sighting_date" class="form-control" value="<%= sightingInfo.sighting.sighting_date %>">
+                <input type="date" id="sighting_date" name="sighting_date" class="form-control" value="<%= sightingInfo.sighting.sighting_date %>" max= <%= formMaxDate.maxDate %>>
               </div>
               <div class="col form-col">
                 <label for="sighting_time">Time of sighting:</label>

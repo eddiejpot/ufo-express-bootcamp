@@ -4,7 +4,7 @@ import express from 'express';
 import methodOverride from 'method-override';
 import moment from 'moment';
 import {
-  read, append, edit, write,
+  read, append, edit, write, deleteByIndex,
 } from './jsonFileStorage.js';
 
 moment().format();
@@ -75,11 +75,37 @@ const groupSightingsByKey = (dataBase, key) => {
   return categories;
 };
 
-const getCurretDateAndTime = () => {
-  const d = new Date();
-  const date = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-  const time = `${d.getHours()}:${d.getMinutes()}`;
-  return (`${date} ${time}`);
+/**
+ * Outputs a custom date and time format
+ * @param {String} dateFormat
+ * @returns {String}
+ * param: 'DD/MM/YYYY' returns 14/12/2020
+ * param: 'custom' returns 'a month ago...' etc
+ * param: 'form' returns 2021-05-13
+ */
+const getCustomDateAndTime = (dateFormat) => {
+  if (dateFormat === 'DD/MM/YYYY') {
+    const date = moment().format('DD/MM/YYYY');
+    const time = moment().format('HH:mm');
+    return (`${date} ${time}`);
+  }
+  if (dateFormat === 'custom') {
+    const arr = ['YYYY', 'M', 'DD', 'HH', 'mm', 's'];
+    const getMoment = arr.map((e) => {
+      if (e === 'M') {
+        console.log(e);
+        const month = Number(moment().format(e)) - 1;
+        return month.toString();
+      }
+      return moment().format(e);
+    });
+    const customTime = moment(getMoment).fromNow();
+    return customTime;
+  }
+  if (dateFormat === 'form') {
+    const date = moment().format('YYYY-MM-DD');
+    return date;
+  }
 };
 
 /* ================================ ROUTES =============================== */
@@ -129,12 +155,13 @@ app.get('/sighting/:index/edit', readDataBase, (req, res) => {
   // get index
   const { index } = req.params;
   // get data
+  const formMaxDate = { maxDate: getCustomDateAndTime('form') };
   const allSightingsObj = req.AllSightingsObj;
   const sighting = allSightingsObj.sightings[index];
   const sightingInfo = { sighting };
   const sightingIndex = { index };
   // render page
-  res.render('edit', { sightingInfo, sightingIndex });
+  res.render('edit', { sightingInfo, sightingIndex, formMaxDate });
 });
 // Single sighting PUT FORM (PUT)
 app.put('/sighting/:index/edit', (req, res) => {
@@ -157,14 +184,15 @@ app.put('/sighting/:index/edit', (req, res) => {
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> POSTING A SIGHTING
 // Sightings form GET
 app.get('/sighting', (req, res) => {
-  res.render('sighting');
+  const formMaxDate = { maxDate: getCustomDateAndTime('form') };
+  res.render('sighting', formMaxDate);
 });
 // Sightings form POST
 app.post('/sighting', (req, res) => {
 // get sighting submission
   const sightingSubmissionObj = req.body;
   // add post created time into Obj
-  sightingSubmissionObj.post_create_date_time = getCurretDateAndTime();
+  sightingSubmissionObj.post_create_date_time = getCustomDateAndTime('DD/MM/YYYY');
   // Add new  data in request.body to recipes array in data.json.
   append(DATABASE, 'sightings', sightingSubmissionObj, (err) => {
     if (err) {
@@ -177,6 +205,7 @@ app.post('/sighting', (req, res) => {
     res.redirect('/form-submit-successful');
   });
 });
+
 // Form submission successful
 app.get('/form-submit-successful', (req, res) => {
   res.render('form-submit-successful');
@@ -185,13 +214,10 @@ app.get('/form-submit-successful', (req, res) => {
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DELETING A SIGHTING
 app.delete('/sighting/:index', (req, res) => {
   const { index } = req.params;
-  edit(DATABASE, (err, jsonContentObj) => {
+  deleteByIndex(DATABASE, 'sightings', index, (err, jsonContentObj) => {
     if (err) {
-      return console.error('error removing data');
+      return console.error('error removing data', err);
     }
-    console.log('deleting!');
-    // Remove the data in the object at the given index
-    jsonContentObj.sightings.splice(index, 1);
     // redirect to homepage
     res.redirect('/');
   });

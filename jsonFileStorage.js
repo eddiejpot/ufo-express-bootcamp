@@ -175,6 +175,38 @@ const remove = (filename, key, inputIndex, callback) => {
   });
 };
 
+/**
+ * Remove a JS Object/Element from an array in a JSON file
+ * @param {string} filename - Name of JSON file
+ * @param {string} key - The key in the JSON file whose value is the target array
+ * @param {number} index - The index number of the target in the array
+ * @param {function} callback - The callback function to execute on error or success
+ * Callback takes read or write error as 1st param
+ * @returns undefined
+ */
+const deleteByIndex = (filename, key, index, callback) => {
+  edit(filename, (err, jsonContentObj) => {
+    // Exit if there was an error
+    if (err) {
+      console.error('delete by index error', err);
+      callback(err);
+      return;
+    }
+    console.log('deleting!');
+    // Remove the data in the object at the given index
+    jsonContentObj[key].splice(index, 1);
+
+    // Pass callback to edit to be called after edit completion
+    callback();
+  });
+};
+
 export {
-  read, write, edit, editOneElement, append, remove,
+  read,
+  write,
+  edit,
+  editOneElement,
+  append,
+  remove,
+  deleteByIndex,
 };
