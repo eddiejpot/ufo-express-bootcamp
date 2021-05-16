@@ -3,6 +3,7 @@
 import express from 'express';
 import methodOverride from 'method-override';
 import moment from 'moment';
+import cookieParser from 'cookie-parser';
 import {
   read, append, edit, write, deleteByIndex,
 } from './jsonFileStorage.js';
@@ -27,6 +28,17 @@ app.set('view engine', 'ejs');
 
 // allow access to public directory
 app.use(express.static('public'));
+
+/* ========================= COOKIES SET UP =========================== */
+let uniqueSiteVisit = 0;
+app.use(cookieParser());
+
+// const cookieThatLastsForCustomDuration = (miliseconds) => {
+//   let date = new Date();
+//   date.setTime(date.getTime() + miliseconds);
+//   // set a new value to send back
+//   res.cookie('mili-seconds-alive', miliseconds {maxAge = });
+// }
 
 /* ================================ GLOBALS =============================== */
 // data base
@@ -110,9 +122,26 @@ const getCustomDateAndTime = (dateFormat) => {
 
 /* ================================ ROUTES =============================== */
 
+// cookies
+app.all('*', (req, res, next) => {
+  if (!req.cookies['unique-site-visit']) {
+    console.log('unique visitor');
+    uniqueSiteVisit += 1;
+  }
+  // set a new value to send back
+  res.cookie('unique-site-visit', uniqueSiteVisit);
+  console.log('not first time');
+  next();
+});
+
 // Homepage
 app.get('/', readDataBase, (req, res) => {
   const allSightingsObj = req.AllSightingsObj;
+  // cookie stuff
+  // incrementVisitorCookie(req, res);
+  // console.log(req.headers.cookie);
+  // console.log(req.cookies.visits);
+
   res.render('index', allSightingsObj);
 });
 
