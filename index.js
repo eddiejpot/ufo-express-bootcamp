@@ -143,7 +143,7 @@ const makeFavouriteSightingsCookie = (req, res, next) => {
 /* ================================ ROUTES =============================== */
 
 // cookies
-app.all('*', makeUniquevisitorCookie, (req, res, next) => {
+app.all('*', makeUniquevisitorCookie, makeFavouriteSightingsCookie, (req, res, next) => {
   // makeUniquevisitorCookie(req, res, next);
   // makeFavouriteSightingsCookie(req, res, next);
   next();
@@ -159,7 +159,7 @@ app.get('/', readDataBase, (req, res) => {
 });
 
 // Single sighting GET
-app.get('/sighting/:index', makeFavouriteSightingsCookie, readDataBase, (req, res) => {
+app.get('/sighting/:index', readDataBase, (req, res) => {
   // get index
   const { index } = req.params;
   // get data
