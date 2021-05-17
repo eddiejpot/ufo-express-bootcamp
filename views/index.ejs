@@ -30,11 +30,12 @@
             <!-- Don't show this column on smaller screen sizes -->
             <th scope="col" class ="d-none d-sm-block">Shape</th>
             <th scope="col">Btn</th>
+            <th scope="col">Fav</th>
           </tr>
         </thead>
         <tbody>
         <!-- Create new element for each sighting -->
-        <% sightings.forEach((e,i) => { %>
+        <% allSightingsObj.sightings.forEach((e,i) => { %>
           <tr>
             <th scope="row"><%= i+1 %> </th>
             <td><%= e.post_create_date_time %></td>
@@ -47,6 +48,13 @@
                 <button type="submit" formaction="/sighting/<%= i%>" formmethod ="GET" class="btn btn-primary delete-btn">View</button>
               </form>
             </td>
+              <%if (!userFavourites.favourites) { %>
+                <td></td>
+                <% } else if (userFavourites.favourites.includes(i.toString())){ %> 
+                  <td>⭐</td>
+                  <% } else { %> 
+                    <td></td>
+              <% } %>
           </tr>
         <% }); %>          
         </tbody>

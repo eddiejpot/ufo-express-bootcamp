@@ -30,15 +30,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 /* ========================= COOKIES SET UP =========================== */
-let uniqueSiteVisit = 0;
 app.use(cookieParser());
-
-// const cookieThatLastsForCustomDuration = (miliseconds) => {
-//   let date = new Date();
-//   date.setTime(date.getTime() + miliseconds);
-//   // set a new value to send back
-//   res.cookie('mili-seconds-alive', miliseconds {maxAge = });
-// }
 
 /* ================================ GLOBALS =============================== */
 // data base
@@ -120,33 +112,54 @@ const getCustomDateAndTime = (dateFormat) => {
   }
 };
 
-/* ================================ ROUTES =============================== */
+/* ================================ COOKIES =============================== */
+let uniqueSiteVisit = 0;
 
-// cookies
-app.all('*', (req, res, next) => {
+const makeUniquevisitorCookie = (req, res, next) => {
   if (!req.cookies['unique-site-visit']) {
-    console.log('unique visitor');
+    // console.log('unique visitor');
     uniqueSiteVisit += 1;
   }
   // set a new value to send back
   res.cookie('unique-site-visit', uniqueSiteVisit);
-  console.log('not first time');
+  // console.log('not first time');
+  next();
+};
+
+const makeFavouriteSightingsCookie = (req, res, next) => {
+  if (!req.cookies['user-favourite']) {
+    res.cookie('user-favourite', '');
+  }
+  next();
+};
+
+// const cookieThatLastsForCustomDuration = (miliseconds) => {
+//   let date = new Date();
+//   date.setTime(date.getTime() + miliseconds);
+//   // set a new value to send back
+//   res.cookie('mili-seconds-alive', miliseconds {maxAge = });
+// }
+
+/* ================================ ROUTES =============================== */
+
+// cookies
+app.all('*', makeUniquevisitorCookie, (req, res, next) => {
+  // makeUniquevisitorCookie(req, res, next);
+  // makeFavouriteSightingsCookie(req, res, next);
   next();
 });
 
 // Homepage
 app.get('/', readDataBase, (req, res) => {
   const allSightingsObj = req.AllSightingsObj;
-  // cookie stuff
-  // incrementVisitorCookie(req, res);
-  // console.log(req.headers.cookie);
-  // console.log(req.cookies.visits);
-
-  res.render('index', allSightingsObj);
+  // get favorite cookie data
+  const userFavourites = { favourites: req.cookies['user-favourite']?.split(',') };
+  console.log(userFavourites);
+  res.render('index', { allSightingsObj, userFavourites });
 });
 
 // Single sighting GET
-app.get('/sighting/:index', readDataBase, (req, res) => {
+app.get('/sighting/:index', makeFavouriteSightingsCookie, readDataBase, (req, res) => {
   // get index
   const { index } = req.params;
   // get data
@@ -154,8 +167,10 @@ app.get('/sighting/:index', readDataBase, (req, res) => {
   const sighting = allSightingsObj.sightings[index];
   const sightingInfo = { sighting };
   const sightingIndex = { index };
+  // get cookie data
+  const previousCookieVal = { userFavourite: req.cookies['user-favourite'] };
   // render page
-  res.render('single-sighting', { sightingInfo, sightingIndex });
+  res.render('single-sighting', { sightingInfo, sightingIndex, previousCookieVal });
 });
 
 // Shapes
